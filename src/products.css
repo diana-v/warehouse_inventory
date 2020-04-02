@@ -1,0 +1,26 @@
+.table-wrapper {
+    margin: 3%;
+}
+
+.checkbox {
+    margin-top: -1.5rem;
+}
+
+.table-header {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.action-button {
+    padding: 0.5rem 0.75rem !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+    text-align: inherit !important;
+}
+
+.products-table td,
+.products-table th {
+    vertical-align: middle !important;
+    border-top: 2px solid #dee2e6 !important;
+}
