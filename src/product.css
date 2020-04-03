@@ -1,0 +1,12 @@
+.product-column {
+    padding: 1% 2% !important;
+}
+
+.product-form-input {
+    width: 73% !important;
+    float: right;
+}
+
+.close {
+    display: none;
+}

@@ -7,7 +7,7 @@ class Products extends React.Component {
         return (
             <div className="table-wrapper">
                 <div>
-                    <ProductsTable items={this.props.items}/>
+                    <ProductsTable deleteMethod={this.props.deleteMethod} items={this.props.items}/>
                 </div>
             </div>
         );

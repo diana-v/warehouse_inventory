@@ -8,8 +8,8 @@ import {
 
 import Products from "./components/Products";
 import Product from "./components/Product";
-import EditProduct from "./components/EditProduct";
-import CreateProduct from "./components/EditProduct";
+import CreateProduct from "./components/CreateProduct";
+
 
 class App extends React.Component {
     state = {
@@ -197,6 +197,15 @@ class App extends React.Component {
         }
     };
 
+    deleteItemById(id) {
+        for (let product in this.state.products) {
+            if(id === product) {
+                delete this.state.products[product];
+                break;
+            }
+        }
+        this.setState(this.state);
+    }
     render() {
         let products = this.state.products;
         return (
@@ -204,15 +213,15 @@ class App extends React.Component {
                 <Router>
                     <div>
                         <Switch>
-                            <Route exact path="/products"><Products items={products}/></Route>
+                            <Route exact path="/products"><Products items={products} deleteMethod={(id)=>{this.deleteItemById(id)}}/></Route>
                             <Route exact path="/products/:productId"
-                                   render={(props) => <Product {...props} items={products}/>}
+                                   render={(props) => <Product {...props} readOnly items={products} deleteMethod={(id)=>{this.deleteItemById(id)}}/>}
                             />
                             <Route exact path="/products/:productId/edit"
-                                   render={(props) => <EditProduct {...props} items={products}/>}
+                                   render={(props) => <Product {...props} items={products} deleteMethod={(id)=>{this.deleteItemById(id)}}/>}
                             />
                             <Route exact path="/products/create"><CreateProduct/></Route>
-                            <Route path="/"><Products/></Route>
+                            <Route path="/"><Products items={products}/></Route>
                         </Switch>
                     </div>
                 </Router>
