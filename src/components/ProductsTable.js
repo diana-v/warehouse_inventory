@@ -58,7 +58,7 @@ const columns = [
     },
     {
         label: 'Active',
-        field: 'active',
+        field: 'activeCheckbox',
         sort: 'asc',
         width: 100
     },
@@ -73,7 +73,7 @@ class ProductsTable extends React.Component {
     state = {
         items: {},
         modal: false,
-        itemIdToDelete: null
+        itemIdToDelete: null,
     };
 
     transformDataForTable(items) {
@@ -81,10 +81,16 @@ class ProductsTable extends React.Component {
             columns: columns,
             rows: []
         };
-        Object.keys(items).forEach((item) => {
-            let copy = items[item];
-            copy['active'] = this.checkboxRender(item);
-            copy['actions'] = this.buttonRender(item);
+        let hightlightStyle = {color: 'white', background: '#d32f2f', padding: '7px', 'border-radius': '3px', 'white-space': 'nowrap'}
+
+        Object.keys(items).forEach((key) => {
+            let copy = items[key];
+            if (copy['quantity'] === '0') {
+                copy['name'] = <span style={hightlightStyle}>{copy['name']}</span>
+                copy['quantity'] = <span style={hightlightStyle}>{copy['quantity']}</span>
+            }
+            copy['activeCheckbox'] = this.checkboxRender(copy);
+            copy['actions'] = this.buttonRender(key);
             data.rows.push(copy);
         });
         return data;
@@ -99,10 +105,10 @@ class ProductsTable extends React.Component {
 
     deleteItem() {
         this.props.deleteMethod(this.state.itemIdToDelete);
-        this.toggle();
+        this.toggleModal();
     }
 
-    toggle = () => {
+    toggleModal = () => {
         this.setState({
             modal: !this.state.modal
         });
@@ -129,13 +135,13 @@ class ProductsTable extends React.Component {
                         data={this.transformDataForTable(items)}
                     />
                 </div>
-                <MDBModal  isOpen={this.state.modal} toggle={this.toggle} size="sm">
-                    <MDBModalHeader toggle={this.toggle}>Are you sure you want to delete
+                <MDBModal  isOpen={this.state.modal} toggle={this.toggleModal} size="sm">
+                    <MDBModalHeader toggle={this.toggleModal}>Are you sure you want to delete
                         this item?</MDBModalHeader>
                     <MDBModalFooter className="flex-center">
                         <MDBBtn color="green" className="action-button" onClick={() => {this.deleteItem(this.state.itemIdToDelete)}}><MDBIcon
                             icon="check"/> Yes</MDBBtn>
-                        <MDBBtn color="red" className="action-button" onClick={this.toggle}><MDBIcon
+                        <MDBBtn color="red" className="action-button" onClick={this.toggleModal}><MDBIcon
                             icon="times"/> Cancel</MDBBtn>
                     </MDBModalFooter>
                 </MDBModal>
@@ -144,9 +150,9 @@ class ProductsTable extends React.Component {
         );
     }
 
-    checkboxRender(id) {
+    checkboxRender(item) {
         return (
-            <div className="checkbox"><MDBInput type="checkbox" id="checkbox2"/></div>
+            <div className="checkbox"><MDBInput checked={item.active} onClick={() => {this.props.checkMethod(item.ean)}} type="checkbox" id="checkbox2"/></div>
         )
     }
 

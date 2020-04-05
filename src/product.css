@@ -1,5 +1,5 @@
 .product-column {
-    padding: 1% 2% !important;
+    padding: 2% 2% !important;
 }
 
 .product-form-input {
@@ -9,4 +9,22 @@
 
 .close {
     display: none;
+}
+
+.product-tabs {
+    border: none !important;
+}
+
+.product-tab {
+    margin-right: 10px;
+    border-radius: .25rem;
+    color: white;
+}
+
+.product-tab:hover {
+    color: white;
+}
+
+.product-card-body {
+    padding: 0 1.25rem 0 0 !important;
 }
