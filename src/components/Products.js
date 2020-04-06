@@ -46,7 +46,7 @@ class Products extends React.Component {
                 products: JSON.parse(productList)
             })
         } else {
-            // if localstorage is empty
+            // If localstorage is empty load BaseData
             this.setState({
                 products: BaseData
             });

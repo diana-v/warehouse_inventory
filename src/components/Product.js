@@ -10,11 +10,11 @@ import {
     MDBModal,
     MDBCardHeader
 } from 'mdbreact';
-import {MDBContainer, MDBTabPane, MDBTabContent, MDBNav, MDBNavItem, MDBNavLink} from "mdbreact";
+import {MDBTabPane, MDBTabContent, MDBNav, MDBNavItem, MDBNavLink} from "mdbreact";
 import '../product.css';
 import {NavLink, Redirect} from "react-router-dom";
-import BaseData from "../BaseData";
-
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 
 export default class Product extends React.Component {
     state = {
@@ -27,7 +27,8 @@ export default class Product extends React.Component {
             "type": '',
             "weight": '',
             "color": '',
-            "active": false
+            "active": false,
+            "history": []
         },
         modal: false,
         redirect: null,
@@ -44,18 +45,21 @@ export default class Product extends React.Component {
 
     handleInputChange(event) {
         const target = event.target;
+        // Different value logic for checkbox
         const value = target.name === 'active' ? target.checked : target.value;
         const name = target.name;
-        this.state.item[name]=value;
-        this.setState(this.state);
+        let copy = this.state.item;
+        copy[name] = value;
+        this.setState({item: copy});
     }
 
     async componentDidMount() {
         if (this.props.match.params) {
             try {
+                // Get all products from localstorage
                 let productList = JSON.parse(localStorage.getItem('productList'));
-
                 for (let key in productList) {
+                    // Search for the product id that we navigated to
                     if (key === this.props.match.params.productId) {
                         this.setState({
                             productId: this.props.match.params.productId,
@@ -84,26 +88,54 @@ export default class Product extends React.Component {
     }
 
     save() {
+        // Old data in database
         let productList = JSON.parse(localStorage.getItem('productList'));
+        // New item being edited by user
         let newItem = this.state.item;
-        productList[newItem.ean]= newItem;
+        var today = new Date();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date + ' ' + time;
+        // Creating a new history entry upon save
+        newItem['history'].push({
+            'quantity': newItem.quantity,
+            'price': newItem.price,
+            'dateTime': dateTime
+        });
+        // Making sure that history count does not exceed more than 5 entries
+        if (newItem['history'].length > 5) {
+            newItem['history'] = newItem['history'].slice(newItem['history'].length - 5, newItem['history'].length)
+        }
+        productList[newItem.ean] = newItem;
         localStorage.setItem('productList', JSON.stringify(productList));
         this.setState({redirect: '/products'})
     }
 
     toggleModal() {
+        // Shows/Hides 'Are you sure you want to delete?' modal window
         this.setState({
             modal: !this.state.modal
         });
     };
 
     toggle = tab => e => {
+        // Changes tabs from 'Product Details' to 'Quantity Modifications' to 'Price Modifications'
         if (this.state.activeItem !== tab) {
             this.setState({
                 activeItem: tab
             });
         }
     };
+
+    getHistory(field) {
+        // Retrieves formatted history for line graph
+        let history = this.state.item.history;
+        let itemHistory = [];
+        for (let i = 0; i < history.length; i++) {
+            itemHistory.push([history[i].dateTime, Number(history[i][field])]);
+        }
+        return itemHistory;
+    }
 
     render() {
         const readOnly = this.props.readOnly;
@@ -114,6 +146,55 @@ export default class Product extends React.Component {
                 <Redirect to={this.state.redirect}/>
             )
         }
+
+        const quantityChanges = {
+            chart: {
+                type: 'spline'
+            },
+            xAxis: {
+                type: 'category'
+            },
+            yAxis: {
+                min: 0
+            },
+            title: {
+                text: 'Quantity'
+            },
+            series: [
+                {
+                    name: 'Quantity',
+                    data: this.getHistory('quantity')
+                }
+            ],
+            datalabels: {
+                enabled: true
+            },
+        };
+
+        const priceChanges = {
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: 'Price'
+            },
+            xAxis: {
+                type: 'category'
+            },
+            yAxis: {
+                min: 0
+            },
+            series: [
+                {
+                    name: 'Price',
+                    data: this.getHistory('price')
+                }
+            ],
+            datalabels: {
+                enabled: true
+            },
+        };
+
         return (
             <div>
                 <MDBCol className="product-column">
@@ -315,7 +396,8 @@ export default class Product extends React.Component {
                                             }
                                             {!readOnly &&
                                             <NavLink to={`/products`}>
-                                                <MDBBtn className="btn btn-outline-green mr-5" type="submit" onClick={this.save}>
+                                                <MDBBtn className="btn btn-outline-green mr-5" type="submit"
+                                                        onClick={this.save}>
                                                     <MDBIcon far icon="save" className="mr-2"/>
                                                     Save
                                                 </MDBBtn>
@@ -330,29 +412,14 @@ export default class Product extends React.Component {
                                 </MDBCardBody>
                             </MDBTabPane>
                             <MDBTabPane tabId="2" role="tabpanel">
-                                <p className="mt-2">
-                                    Quisquam aperiam, pariatur. Tempora, placeat ratione porro
-                                    voluptate odit minima. Lorem ipsum dolor sit amet,
-                                    consectetur adipisicing elit. Nihil odit magnam minima,
-                                    soluta doloribus reiciendis molestiae placeat unde eos
-                                    molestias.
-                                </p>
-                                <p>
-                                    Quisquam aperiam, pariatur. Tempora, placeat ratione porro
-                                    voluptate odit minima. Lorem ipsum dolor sit amet,
-                                    consectetur adipisicing elit. Nihil odit magnam minima,
-                                    soluta doloribus reiciendis molestiae placeat unde eos
-                                    molestias.
-                                </p>
+                                <div>
+                                    <HighchartsReact highcharts={Highcharts} options={quantityChanges}/>
+                                </div>
                             </MDBTabPane>
                             <MDBTabPane tabId="3" role="tabpanel">
-                                <p className="mt-2">
-                                    Quisquam aperiam, pariatur. Tempora, placeat ratione porro
-                                    voluptate odit minima. Lorem ipsum dolor sit amet,
-                                    consectetur adipisicing elit. Nihil odit magnam minima,
-                                    soluta doloribus reiciendis molestiae placeat unde eos
-                                    molestias.
-                                </p>
+                                <div>
+                                    <HighchartsReact highcharts={Highcharts} options={priceChanges}/>
+                                </div>
                             </MDBTabPane>
                         </MDBTabContent>
                     </MDBCard>

@@ -81,10 +81,11 @@ class ProductsTable extends React.Component {
             columns: columns,
             rows: []
         };
-        let hightlightStyle = {color: 'white', background: '#d32f2f', padding: '7px', 'border-radius': '3px', 'white-space': 'nowrap'}
+        let hightlightStyle = {color: 'white', background: '#d32f2f', padding: '7px', borderRadius: '3px', whiteSpace: 'nowrap'}
 
         Object.keys(items).forEach((key) => {
             let copy = items[key];
+            // Highlighting functionality if the quantity is 0
             if (copy['quantity'] === '0') {
                 copy['name'] = <span style={hightlightStyle}>{copy['name']}</span>
                 copy['quantity'] = <span style={hightlightStyle}>{copy['quantity']}</span>
@@ -113,6 +114,29 @@ class ProductsTable extends React.Component {
             modal: !this.state.modal
         });
     };
+
+    checkboxRender(item) {
+        return (
+            <div className="checkbox"><MDBInput checked={item.active} onClick={() => {this.props.checkMethod(item.ean)}} type="checkbox" id="checkbox2"/></div>
+        )
+    }
+
+    buttonRender(id) {
+        return (
+            <div>
+                <NavLink to={`/products/${id}`}>
+                    <MDBBtn color="grey" size="sm" className="action-button"><MDBIcon far icon="eye"/> View</MDBBtn>
+                </NavLink>
+                <NavLink to={`/products/${id}/edit`}>
+                    <MDBBtn color="blue" size="sm" className="action-button"><MDBIcon far icon="edit"/> Edit</MDBBtn>
+                </NavLink>
+
+                <MDBBtn color="red" size="sm" className="action-button" onClick={()=>{this.openDeleteDialog(id)}}>
+                    <MDBIcon far icon="trash-alt"/> Delete
+                </MDBBtn>
+            </div>
+        )
+    }
 
     render() {
         let items = this.props.items;
@@ -148,29 +172,6 @@ class ProductsTable extends React.Component {
             </MDBCard>
 
         );
-    }
-
-    checkboxRender(item) {
-        return (
-            <div className="checkbox"><MDBInput checked={item.active} onClick={() => {this.props.checkMethod(item.ean)}} type="checkbox" id="checkbox2"/></div>
-        )
-    }
-
-    buttonRender(id) {
-        return (
-            <div>
-                <NavLink to={`/products/${id}`}>
-                    <MDBBtn color="grey" size="sm" className="action-button"><MDBIcon far icon="eye"/> View</MDBBtn>
-                </NavLink>
-                <NavLink to={`/products/${id}/edit`}>
-                    <MDBBtn color="blue" size="sm" className="action-button"><MDBIcon far icon="edit"/> Edit</MDBBtn>
-                </NavLink>
-
-                <MDBBtn color="red" size="sm" className="action-button" onClick={()=>{this.openDeleteDialog(id)}}>
-                    <MDBIcon far icon="trash-alt"/> Delete
-                </MDBBtn>
-            </div>
-        )
     }
 }
 

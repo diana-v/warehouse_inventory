@@ -2,12 +2,13 @@ let BaseData = {
     "28318217": {
         "name": "Banana",
         "ean": "28318217",
-        "price": "1,30",
+        "price": "1.30",
         "quantity": "5",
         "type": "Fruit and Veg",
         "weight": "150",
         "color": "Yellow",
-        "active": true
+        "active": true,
+        "history": []
     },
     "21097003": {
         "name": "Corn",
@@ -17,7 +18,8 @@ let BaseData = {
         "type": "Fruit and Veg",
         "weight": "100",
         "color": "Yellow",
-        "active": true
+        "active": true,
+        "history": []
     },
     "98582358": {
         "name": "Cucumber",
@@ -27,7 +29,8 @@ let BaseData = {
         "type": "Fruit and Veg",
         "weight": "180",
         "color": "Green",
-        "active": false
+        "active": false,
+        "history": []
     },
     "26294551": {
         "name": "Tomato",
@@ -37,7 +40,8 @@ let BaseData = {
         "type": "Fruit and Veg",
         "weight": "100",
         "color": "Red",
-        "active": true
+        "active": true,
+        "history": []
     },
     "54313239": {
         "name": "Potato",
@@ -47,17 +51,19 @@ let BaseData = {
         "type": "Fruit and Veg",
         "weight": "50",
         "color": "Brown",
-        "active": false
+        "active": false,
+        "history": []
     },
     "10003626": {
         "name": "Broccoli",
         "ean": "10003626",
-        "price": "1,30",
+        "price": "1.30",
         "quantity": "7",
         "type": "Fruit and Veg",
         "weight": "200",
         "color": "Green",
-        "active": true
+        "active": true,
+        "history": []
     },
     "38172175": {
         "name": "Apple",
@@ -67,7 +73,8 @@ let BaseData = {
         "type": "Fruit and Veg",
         "weight": "59",
         "color": "Green",
-        "active": false
+        "active": false,
+        "history": []
     },
     "44487263": {
         "name": "Orange",
@@ -77,7 +84,8 @@ let BaseData = {
         "type": "Fruit and Veg",
         "weight": "80",
         "color": "Orange",
-        "active": true
+        "active": true,
+        "history": []
     },
     "20051549": {
         "name": "Mango",
@@ -87,7 +95,8 @@ let BaseData = {
         "type": "Fruit and Veg",
         "weight": "100",
         "color": "Red",
-        "active": false
+        "active": false,
+        "history": []
     },
     "91029451": {
         "name": "Watermelon",
@@ -97,7 +106,8 @@ let BaseData = {
         "type": "Fruit and Veg",
         "weight": "2000",
         "color": "Green",
-        "active": true
+        "active": true,
+        "history": []
     },
     "75490096": {
         "name": "Eggs",
@@ -107,7 +117,8 @@ let BaseData = {
         "type": "Dairy",
         "weight": "200",
         "color": "Brown",
-        "active": false
+        "active": false,
+        "history": []
     },
     "85821969": {
         "name": "Milk",
@@ -117,7 +128,8 @@ let BaseData = {
         "type": "Dairy",
         "weight": "1000",
         "color": "White",
-        "active": false
+        "active": false,
+        "history": []
     },
     "12898800": {
         "name": "Cheese",
@@ -127,7 +139,8 @@ let BaseData = {
         "type": "Dairy",
         "weight": "300",
         "color": "Yellow",
-        "active": true
+        "active": true,
+        "history": []
     },
     "17646888": {
         "name": "Yoghurt",
@@ -137,7 +150,8 @@ let BaseData = {
         "type": "Dairy",
         "weight": "250",
         "color": "White",
-        "active": false
+        "active": false,
+        "history": []
     },
     "80841791": {
         "name": "Whipped Cream",
@@ -147,7 +161,8 @@ let BaseData = {
         "type": "Dairy",
         "weight": "150",
         "color": "White",
-        "active": true
+        "active": true,
+        "history": []
     },
     "92917750": {
         "name": "Flour",
@@ -157,7 +172,8 @@ let BaseData = {
         "type": "Baking",
         "weight": "2000",
         "color": "White",
-        "active": true
+        "active": true,
+        "history": []
     },
     "55523189": {
         "name": "Yeast",
@@ -167,7 +183,8 @@ let BaseData = {
         "type": "Baking",
         "weight": "15",
         "color": "Brown",
-        "active": false
+        "active": false,
+        "history": []
     },
     "91899682": {
         "name": "Baking Powder",
@@ -177,7 +194,8 @@ let BaseData = {
         "type": "Baking",
         "weight": "50",
         "color": "White",
-        "active": true
+        "active": true,
+        "history": []
     },
     "70845211": {
         "name": "Wholewheat Flour",
@@ -187,7 +205,8 @@ let BaseData = {
         "type": "Baking",
         "weight": "2000",
         "color": "Brown",
-        "active": true
+        "active": true,
+        "history": []
     },
     "38946561": {
         "name": "Cinnamon",
@@ -197,7 +216,8 @@ let BaseData = {
         "type": "Baking",
         "weight": "50",
         "color": "Brown",
-        "active": false
+        "active": false,
+        "history": []
     }
 };
 
